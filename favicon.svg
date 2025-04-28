@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="32" height="32">
+  <!-- Background with a subtle retro gradient -->
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff7f50;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8a2be2;stop-opacity:1" />
+    </linearGradient>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;display=swap');
+      .retro-text { font-family: 'Press Start 2P', cursive; font-size: 40px; fill: #ffffff; }
+      .wave { stroke: #00ffff; stroke-width: 3; fill: none; }
+    </style>
+  </defs>
+  <rect width="100" height="100" fill="url(#grad1)" rx="10" ry="10"/>
+
+  <!-- Simple Sine Wave element -->
+  <path class="wave" d="M 10 70 Q 25 50 40 70 T 70 70 T 100 70" stroke-dasharray="5 5" />
+
+  <!-- Retro Font Text "RW" -->
+  <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" class="retro-text">RW</text>
+</svg> 
