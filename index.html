@@ -4,81 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RetroWaveFX Sound Test</title>
+    <!-- External CSS -->
+    <link rel="stylesheet" href="css/styles.css">
     <!-- Add highlight.js for code syntax highlighting -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
+    <!-- Add font-awesome for copy icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- External Libraries (Consider loading them before main.js if needed) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script>
     
-    <style>
-        body {
-            font-family: sans-serif;
-            padding: 20px;
-            background-color: #f0f0f0;
-        }
-        h1 {
-            color: #333;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        #sound-buttons {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        button {
-            padding: 15px 10px;
-            font-size: 1.1em;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-            background-color: #4a90e2;
-            color: white;
-            transition: background-color 0.2s ease, transform 0.1s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        button:hover {
-            background-color: #357abd;
-        }
-        button:active {
-            background-color: #2a659a;
-            transform: scale(0.98);
-        }
-        button .emoji {
-             font-size: 1.4em;
-        }
-        .tooltip {
-            position: relative;
-            display: inline-block;
-        }
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 160px;
-            background-color: #555;
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 5px 8px;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            margin-left: -80px;
-            opacity: 0;
-            transition: opacity 0.3s;
-            font-size: 0.9em;
-        }
-
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
-        }
-    </style>
+    <!-- Removed inline <style> block -->
 </head>
 <body>
 
@@ -86,62 +24,23 @@
 
     <div id="sound-buttons"></div>
 
-    <script src="src/RetroWaveFX.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const soundButtonContainer = document.getElementById('sound-buttons');
-            const sounds = RetroWaveFX.Audio.getAllSoundEffects();
+    <!-- Updated path for RetroWaveFX library -->
+    <script src="lib/RetroWaveFX.js"></script>
+    
+    <!-- Removed inline <script> block -->
 
-            if (!sounds || sounds.length === 0) {
-                soundButtonContainer.innerHTML = '<p>No sound effects registered or library not loaded correctly.</p>';
-                return;
-            }
-
-            sounds.forEach(sound => {
-                const buttonWrapper = document.createElement('div');
-                buttonWrapper.className = 'tooltip';
-
-                const button = document.createElement('button');
-                
-                const emojiSpan = document.createElement('span');
-                emojiSpan.className = 'emoji';
-                emojiSpan.textContent = sound.emoji;
-                
-                const textSpan = document.createElement('span');
-                textSpan.textContent = sound.name;
-                
-                button.appendChild(emojiSpan);
-                button.appendChild(textSpan);
-
-                button.addEventListener('click', () => {
-                    RetroWaveFX.Audio.initAudio(); 
-                    RetroWaveFX.Audio.playSoundByName(sound.name);
-                });
-
-                const tooltipText = document.createElement('span');
-                tooltipText.className = 'tooltiptext';
-                tooltipText.textContent = sound.description;
-
-                buttonWrapper.appendChild(button);
-                buttonWrapper.appendChild(tooltipText);
-                soundButtonContainer.appendChild(buttonWrapper);
-            });
-
-            console.log(`UI generated for ${sounds.length} sound effects.`);
-            
-            // Initialize syntax highlighting
-            hljs.highlightAll();
-        });
-    </script>
-
+    <!-- Quick Start Guide Section -->
     <section style="max-width: 800px; margin: 30px auto; padding: 20px; background: #fff; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
         <h2>Quick Start Guide</h2>
         
         <h3>1. Include the Library</h3>
-        <pre><code class="language-html"><script src="src/RetroWaveFX.js"></script></code></pre>
+        <!-- Updated path in example code -->
+        <pre><code class="language-html">&lt;script src="lib/RetroWaveFX.js"&gt;&lt;/script&gt;</code></pre>
         
         <h3>2. Register Custom Sound</h3>
-        <pre><code class="language-javascript">// Register a custom sound effect
+        <div class="code-container">
+            <button class="copy-btn" title="Copy to clipboard"><i class="far fa-copy"></i></button>
+            <pre><code class="language-javascript">// Register a custom sound effect
 RetroWaveFX.Audio.registerSound('mySound', {
     description: 'Example custom sound',
     emoji: '🎵'
@@ -161,13 +60,17 @@ RetroWaveFX.Audio.registerSound('mySound', {
     oscillator.start();
     oscillator.stop(audioCtx.currentTime + 0.5);
 });</code></pre>
+        </div>
         
         <h3>3. Play Sounds</h3>
-        <pre><code class="language-javascript">// Play default sound
+        <div class="code-container">
+            <button class="copy-btn" title="Copy to clipboard"><i class="far fa-copy"></i></button>
+            <pre><code class="language-javascript">// Play default sound
 RetroWaveFX.Audio.playSoundByName('correct');
 
 // Play custom sound
 RetroWaveFX.Audio.playSoundByName('mySound');</code></pre>
+        </div>
         
         <h3>4. Important Notes</h3>
         <ul>
@@ -176,6 +79,9 @@ RetroWaveFX.Audio.playSoundByName('mySound');</code></pre>
             <li>Check console for debugging information</li>
         </ul>
     </section>
+
+    <!-- Load main application script at the end -->
+    <script src="js/main.js"></script>
 
 </body>
 </html>
