@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RetroWaveFX Sound Test</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        #sound-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        button {
+            padding: 15px 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #4a90e2;
+            color: white;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex; /* Use flexbox for alignment */
+            align-items: center; /* Center items vertically */
+            justify-content: center; /* Center items horizontally */
+            gap: 8px; /* Space between emoji and text */
+        }
+        button:hover {
+            background-color: #357abd;
+        }
+        button:active {
+            background-color: #2a659a;
+            transform: scale(0.98);
+        }
+        button .emoji {
+             font-size: 1.4em; /* Make emoji slightly larger */
+        }
+        .tooltip {
+            position: relative;
+            display: inline-block; /* Needed for tooltip positioning */
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 160px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* Position above the button */
+            left: 50%;
+            margin-left: -80px; /* Use half of the width to center */
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.9em;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>RetroWaveFX Sound Effects</h1>
+
+    <div id="sound-buttons"></div>
+
+    <script src="src/RetroWaveFX.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const soundButtonContainer = document.getElementById('sound-buttons');
+            const sounds = RetroWaveFX.Audio.getAllSoundEffects();
+
+            if (!sounds || sounds.length === 0) {
+                soundButtonContainer.innerHTML = '<p>No sound effects registered or library not loaded correctly.</p>';
+                return;
+            }
+
+            sounds.forEach(sound => {
+                const buttonWrapper = document.createElement('div');
+                buttonWrapper.className = 'tooltip'; // Add tooltip class to the wrapper
+
+                const button = document.createElement('button');
+                
+                const emojiSpan = document.createElement('span');
+                emojiSpan.className = 'emoji';
+                emojiSpan.textContent = sound.emoji;
+                
+                const textSpan = document.createElement('span');
+                textSpan.textContent = sound.name;
+                
+                button.appendChild(emojiSpan);
+                button.appendChild(textSpan);
+
+                // Add click listener to play sound by name
+                button.addEventListener('click', () => {
+                    // Ensure initAudio is called (though the body listener should handle the first time)
+                    RetroWaveFX.Audio.initAudio(); 
+                    RetroWaveFX.Audio.playSoundByName(sound.name);
+                });
+
+                const tooltipText = document.createElement('span');
+                tooltipText.className = 'tooltiptext';
+                tooltipText.textContent = sound.description;
+
+                buttonWrapper.appendChild(button);
+                buttonWrapper.appendChild(tooltipText);
+                soundButtonContainer.appendChild(buttonWrapper);
+            });
+
+            // Optional: Log to confirm UI setup
+            console.log(`UI generated for ${sounds.length} sound effects.`);
+        });
+    </script>
+
+</body>
+</html> 
