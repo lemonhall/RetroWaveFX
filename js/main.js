@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const soundButtonContainer = document.getElementById('sound-buttons');
+    const searchInput = document.getElementById('search-input'); // Get the search input
+    let allButtonWrappers = []; // Store all button wrappers for filtering
     
     // Check if RetroWaveFX and its methods are available
     if (typeof RetroWaveFX === 'undefined' || typeof RetroWaveFX.Audio === 'undefined' || typeof RetroWaveFX.Audio.getAllSoundEffects === 'undefined') {
@@ -17,6 +19,11 @@ document.addEventListener('DOMContentLoaded', () => {
         sounds.forEach(sound => {
             const buttonWrapper = document.createElement('div');
             buttonWrapper.className = 'tooltip';
+            // Store sound data on the wrapper for easy filtering
+            buttonWrapper.dataset.name = sound.name.toLowerCase();
+            buttonWrapper.dataset.description = sound.description.toLowerCase();
+            // Ensure category exists and is stored, default to empty string if not
+            buttonWrapper.dataset.category = (sound.category || '').toLowerCase(); 
 
             const button = document.createElement('button');
             
@@ -51,10 +58,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
             buttonWrapper.appendChild(button);
             buttonWrapper.appendChild(tooltipText);
-            soundButtonContainer.appendChild(buttonWrapper);
+            // Don't append directly, store first
+            allButtonWrappers.push(buttonWrapper); 
         });
-        console.log(`UI generated for ${sounds.length} sound effects.`);
+        // Append all wrappers initially
+        allButtonWrappers.forEach(wrapper => soundButtonContainer.appendChild(wrapper));
+        console.log(`UI generated for ${allButtonWrappers.length} sound effects.`);
     }
+
+    // Add event listener for search input
+    searchInput.addEventListener('input', () => {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        allButtonWrappers.forEach(wrapper => {
+            const nameMatch = wrapper.dataset.name.includes(searchTerm);
+            const descriptionMatch = wrapper.dataset.description.includes(searchTerm);
+            const categoryMatch = wrapper.dataset.category.includes(searchTerm);
+            
+            // Show if any field matches, hide otherwise
+            if (nameMatch || descriptionMatch || categoryMatch) {
+                wrapper.style.display = ''; // Show the button wrapper
+            } else {
+                wrapper.style.display = 'none'; // Hide the button wrapper
+            }
+        });
+    });
 
     // Initialize syntax highlighting if hljs is available
     if (typeof hljs !== 'undefined') {

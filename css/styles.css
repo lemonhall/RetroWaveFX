@@ -106,4 +106,28 @@ section {
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Search Input Styles */
+.search-container {
+    display: flex;
+    justify-content: center; /* Center the input horizontally */
+    margin-bottom: 25px; /* Add space below the search bar */
+}
+
+#search-input {
+    padding: 12px 18px; /* Increase padding for height */
+    width: 60%; /* Adjust width */
+    max-width: 500px; /* Set a max width */
+    font-size: 16px; /* Adjust font size */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Style border */
+    border-radius: 6px; /* Round corners */
+    background: rgba(255, 255, 255, 0.1); /* Slightly transparent background */
+    color: #e6e6e6; /* Text color */
+    outline: none; /* Remove default outline */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add subtle shadow */
+}
+
+#search-input::placeholder {
+    color: #aaa; /* Style placeholder text */
 } 
