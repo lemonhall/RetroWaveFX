@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RetroWaveFX Sound Test</title>
+    <!-- Add highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/javascript.min.js"></script>
+    
     <style>
         body {
             font-family: sans-serif;
@@ -32,10 +37,10 @@
             color: white;
             transition: background-color 0.2s ease, transform 0.1s ease;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            display: flex; /* Use flexbox for alignment */
-            align-items: center; /* Center items vertically */
-            justify-content: center; /* Center items horizontally */
-            gap: 8px; /* Space between emoji and text */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
         button:hover {
             background-color: #357abd;
@@ -45,11 +50,11 @@
             transform: scale(0.98);
         }
         button .emoji {
-             font-size: 1.4em; /* Make emoji slightly larger */
+             font-size: 1.4em;
         }
         .tooltip {
             position: relative;
-            display: inline-block; /* Needed for tooltip positioning */
+            display: inline-block;
         }
         .tooltip .tooltiptext {
             visibility: hidden;
@@ -61,9 +66,9 @@
             padding: 5px 8px;
             position: absolute;
             z-index: 1;
-            bottom: 125%; /* Position above the button */
+            bottom: 125%;
             left: 50%;
-            margin-left: -80px; /* Use half of the width to center */
+            margin-left: -80px;
             opacity: 0;
             transition: opacity 0.3s;
             font-size: 0.9em;
@@ -94,7 +99,7 @@
 
             sounds.forEach(sound => {
                 const buttonWrapper = document.createElement('div');
-                buttonWrapper.className = 'tooltip'; // Add tooltip class to the wrapper
+                buttonWrapper.className = 'tooltip';
 
                 const button = document.createElement('button');
                 
@@ -108,9 +113,7 @@
                 button.appendChild(emojiSpan);
                 button.appendChild(textSpan);
 
-                // Add click listener to play sound by name
                 button.addEventListener('click', () => {
-                    // Ensure initAudio is called (though the body listener should handle the first time)
                     RetroWaveFX.Audio.initAudio(); 
                     RetroWaveFX.Audio.playSoundByName(sound.name);
                 });
@@ -124,10 +127,55 @@
                 soundButtonContainer.appendChild(buttonWrapper);
             });
 
-            // Optional: Log to confirm UI setup
             console.log(`UI generated for ${sounds.length} sound effects.`);
+            
+            // Initialize syntax highlighting
+            hljs.highlightAll();
         });
     </script>
 
+    <section style="max-width: 800px; margin: 30px auto; padding: 20px; background: #fff; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <h2>Quick Start Guide</h2>
+        
+        <h3>1. Include the Library</h3>
+        <pre><code class="language-html"><script src="src/RetroWaveFX.js"></script></code></pre>
+        
+        <h3>2. Register Custom Sound</h3>
+        <pre><code class="language-javascript">// Register a custom sound effect
+RetroWaveFX.Audio.registerSound('mySound', {
+    description: 'Example custom sound',
+    emoji: '🎵'
+}, (audioCtx) => {
+    const oscillator = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+    
+    oscillator.type = 'sine';
+    oscillator.frequency.value = 440; // A4 note
+    
+    gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+    
+    oscillator.start();
+    oscillator.stop(audioCtx.currentTime + 0.5);
+});</code></pre>
+        
+        <h3>3. Play Sounds</h3>
+        <pre><code class="language-javascript">// Play default sound
+RetroWaveFX.Audio.playSoundByName('correct');
+
+// Play custom sound
+RetroWaveFX.Audio.playSoundByName('mySound');</code></pre>
+        
+        <h3>4. Important Notes</h3>
+        <ul>
+            <li>AudioContext requires user interaction to initialize</li>
+            <li>First sound playback may need a page click</li>
+            <li>Check console for debugging information</li>
+        </ul>
+    </section>
+
 </body>
-</html> 
+</html>
